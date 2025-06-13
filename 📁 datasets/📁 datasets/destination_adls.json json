@@ -1,0 +1,29 @@
+{
+  "name": "ADLSOutputDataset",
+  "properties": {
+    "linkedServiceName": {
+      "referenceName": "ADLSGen2LinkedService",
+      "type": "LinkedServiceReference"
+    },
+    "parameters": {
+      "Container": {
+        "type": "String"
+      },
+      "Directory": {
+        "type": "String"
+      }
+    },
+    "type": "DelimitedText",
+    "typeProperties": {
+      "location": {
+        "type": "AzureBlobFSLocation",
+        "fileSystem": "@dataset().Container",
+        "folderPath": "@dataset().Directory"
+      },
+      "columnDelimiter": ",",
+      "escapeChar": "\\",
+      "firstRowAsHeader": true
+    },
+    "schema": []
+  }
+}
