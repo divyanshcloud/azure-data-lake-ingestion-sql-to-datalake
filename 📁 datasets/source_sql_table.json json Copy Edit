@@ -1,0 +1,19 @@
+{
+  "name": "AzureSQLDataset",
+  "properties": {
+    "linkedServiceName": {
+      "referenceName": "AzureSQLLinkedService",
+      "type": "LinkedServiceReference"
+    },
+    "parameters": {
+      "TableName": {
+        "type": "String"
+      }
+    },
+    "type": "AzureSqlTable",
+    "typeProperties": {
+      "tableName": "@dataset().TableName"
+    },
+    "schema": []
+  }
+}
