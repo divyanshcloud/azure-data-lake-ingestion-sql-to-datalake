@@ -1,0 +1,75 @@
+{
+  "name": "Ingest_SQL_To_ADLS",
+  "properties": {
+    "description": "Pipeline to ingest data from Azure SQL Database to Azure Data Lake Storage Gen2",
+    "activities": [
+      {
+        "name": "CopySQLtoADLS",
+        "type": "Copy",
+        "dependsOn": [],
+        "policy": {
+          "timeout": "7.00:00:00",
+          "retry": 0,
+          "retryIntervalInSeconds": 30,
+          "secureOutput": false,
+          "secureInput": false
+        },
+        "userProperties": [],
+        "typeProperties": {
+          "source": {
+            "type": "SqlSource",
+            "sqlReaderQuery": "SELECT * FROM @{pipeline().parameters.tableName}"
+          },
+          "sink": {
+            "type": "DelimitedTextSink",
+            "storeSettings": {
+              "type": "AzureBlobFSWriteSettings",
+              "fileNamePrefix": "@{pipeline().parameters.tableName}",
+              "maxConcurrentConnections": 4
+            },
+            "formatSettings": {
+              "type": "DelimitedTextFormat",
+              "columnDelimiter": ",",
+              "quoteAllText": true
+            }
+          },
+          "enableStaging": false
+        },
+        "inputs": [
+          {
+            "referenceName": "AzureSQLDataset",
+            "type": "DatasetReference",
+            "parameters": {
+              "TableName": "@pipeline().parameters.tableName"
+            }
+          }
+        ],
+        "outputs": [
+          {
+            "referenceName": "ADLSOutputDataset",
+            "type": "DatasetReference",
+            "parameters": {
+              "Container": "@pipeline().parameters.container",
+              "Directory": "@pipeline().parameters.targetDirectory"
+            }
+          }
+        ]
+      }
+    ],
+    "parameters": {
+      "tableName": {
+        "type": "string",
+        "defaultValue": "SalesOrders"
+      },
+      "container": {
+        "type": "string",
+        "defaultValue": "raw"
+      },
+      "targetDirectory": {
+        "type": "string",
+        "defaultValue": "salesorders"
+      }
+    },
+    "annotations": []
+  }
+}
