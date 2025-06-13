@@ -1,0 +1,19 @@
+{
+  "name": "ADLSGen2LinkedService",
+  "properties": {
+    "type": "AzureBlobFS",
+    "typeProperties": {
+      "url": "https://<your-storage-account>.dfs.core.windows.net",
+      "servicePrincipalId": "<your-client-id>",
+      "servicePrincipalKey": {
+        "type": "SecureString",
+        "value": "<your-client-secret>"
+      },
+      "tenant": "<your-tenant-id>"
+    },
+    "connectVia": {
+      "referenceName": "AutoResolveIntegrationRuntime",
+      "type": "IntegrationRuntimeReference"
+    }
+  }
+}
